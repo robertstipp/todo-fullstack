@@ -3,12 +3,15 @@ import { useState } from 'react'
 import user from '../utils/data/users.json'
 import styled from 'styled-components'
 
+import Art from './Art'
+
 const Login = ({ handleLogIn }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
   return (
     <Wrapper>
+        <Art />
         <Greeting>
             <h1>Welcome Back</h1>
             <p>Please Enter Your Details</p>
@@ -62,6 +65,10 @@ justify-content: center;
 align-items: center;
 gap: 10px;
 border-radius: 7px;
+&::placeholder {
+    
+    color: red;
+}
 `
 
 const Submit = styled.button`
