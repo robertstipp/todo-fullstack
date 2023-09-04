@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import userData from "./utils/data/users.json";
 import Logout from "./Components/Logout";
+import styled from 'styled-components';
 
 
 
@@ -62,7 +63,7 @@ function App() {
 
 
   return (
-    <div className="App">
+    <MainWrapper className="App">
       {isLoggedIn === true ?
       <>
         <Logout handleLogOut={handleLogOut} />
@@ -78,8 +79,18 @@ function App() {
        : 
        <Login handleLogIn={handleLogIn}/>}
        
-    </div>
+    </MainWrapper>
   );
 }
+
+const MainWrapper = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+margin: 30px 30px;
+padding: 20px 20px;
+`
+
 
 export default App;
