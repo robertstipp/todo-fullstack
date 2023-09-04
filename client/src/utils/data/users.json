@@ -1,0 +1,8 @@
+[
+    {
+        "username": "bobby",
+        "password": "bubbles",
+        "todos" : [{"itemName": "Buy Bubbles", "itemValue": "Five", "id": 1, "status": true}, 
+        {"itemName": "Watch Kobe", "itemValue": "Forty Hours", "id": 2, "status": false}]
+    }
+]
