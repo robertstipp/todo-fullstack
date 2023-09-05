@@ -34,19 +34,20 @@ function App() {
       .then((res) => {
         if (res.status === 200) {
           console.log('Logged In')
-          console.log('<<< RESPONSE', res, '>>>'); 
+          console.log('<<< RESPONSE', res, '>>>');
+          setIsLoggedIn(true); 
+          return true
         }
 
     })
-   
-    if(username === userData[0].username && password === userData[0].password){
-      setTimeout(()=>{
-        setIsLoggedIn(true);
-        setTodos(userData[0].todos);
-      },1000)
-    
-      return true
-    }
+    // if(username === userData[0].username && password === userData[0].password){
+    //   setTimeout(()=>{
+    //     setIsLoggedIn(true);
+    //     setTodos(userData[0].todos);
+    //   },1000)
+  
+    //   return true
+    // }
     return false
 };
 

@@ -8,18 +8,10 @@ import Art from './Art'
 const Login = ({ handleLogIn, isSignUp, toggleSignup }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [loginSuccessful, setloginSuccessful] = useState(false)
-    const [loginFailed, setLoginFailed] = useState(false)
+    
+    
     const handleLoginClick = () => {
         const isSuccess = handleLogIn(username,password)
-        if (isSuccess) {
-            setloginSuccessful(true)
-        } else {
-            setLoginFailed(true)
-            setTimeout(()=>setLoginFailed(false),1000)
-        }
-        
-        
     }
 
   return (
@@ -36,8 +28,6 @@ const Login = ({ handleLogIn, isSignUp, toggleSignup }) => {
             setPassword(e.target.value);
         }} />
         <Submit 
-            loginSuccessful={loginSuccessful}
-            loginFailed={loginFailed}
             onClick={handleLoginClick}
         >{isSignUp ?"Submit" : "Login"}
         </Submit>
@@ -110,7 +100,8 @@ width: 282px;
 padding: 10px;
 border: 1px solid black;
 border-radius: 7px;
-background: ${(props) => props.loginSuccessful ? 'green' : 'black'};
+/* background: ${(props) => props.loginSuccessful ? 'green' : 'black'}; */
+background: ${(props) => true ? 'green' : 'black'};
 color: white;
 font-family: var(--main-font);
 ${props => props.loginFailed && css`
@@ -118,7 +109,8 @@ ${props => props.loginFailed && css`
   `}
 cursor: pointer;
 &:hover {
-    background: ${(props) => props.loginSuccessful ? 'green' : 'grey'};
+    /* background: ${(props) => props.loginSuccessful ? 'green' : 'grey'}; */
+    background: ${(props) => true ? 'green' : 'grey'};
 }
 
 `
