@@ -1,20 +1,20 @@
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    todo: [{
+    todos: [{
         type: Schema.Types.ObjectId,
         ref: 'todo'
     }]
 });
 
-// userSchema.pre('save', async function () {
-
-// });
+userSchema.pre('save', async function(next) {
+    this.password = bcrypt.hashSync(this.password, SALT_WORK_FACTOR);
+    return next();
+})
 
 const User = mongoose.model('user', userSchema);
-
 module.exports = User;

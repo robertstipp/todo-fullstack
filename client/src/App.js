@@ -4,22 +4,50 @@ import { useState } from "react";
 import { useEffect } from "react";
 import userData from "./utils/data/users.json";
 import Logout from "./Components/Logout";
-import styled from 'styled-components';
+import {styled, createGlobalStyle} from 'styled-components';
 
-
+const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+  :root {
+    --main-font: 'Roboto', sans-serif;
+  }
+  
+`
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false)
   const [todos, setTodos] = useState(userData[0].todos);
   const [activeFilter, setActiveFilter] = useState('all')
 
-  const handleLogIn = (username, password) => {
+  const handleLogIn = async (username, password) => {
+
+    const body = JSON.stringify({username:username, password:password}); 
+    await fetch('http://localhost:3000/user/login', {
+      method: 'POST',
+      body: body,
+      headers: {
+        'Content-Type': 'Application/Json'
+      }
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('Logged In')
+          console.log('<<< RESPONSE', res, '>>>'); 
+        }
+
+    })
    
     if(username === userData[0].username && password === userData[0].password){
-      setIsLoggedIn(true);
-      setTodos(userData[0].todos);
+      setTimeout(()=>{
+        setIsLoggedIn(true);
+        setTodos(userData[0].todos);
+      },1000)
+    
+      return true
     }
+    return false
 };
 
   const handleLogOut = () => {
@@ -27,16 +55,17 @@ function App() {
     setTodos([]);
   }
 
+  const toggleSignup = () => {
+    setIsSignUp(true)
+  }
+
   const createNewToDo = (newToDo) => {
-    console.log('inside')
     const pre = todos.slice()
     pre.push(newToDo);
-    console.log(pre)
     setTodos(pre)
   }
 
   const deleteToDo = (id) => {
-    console.log(id)
     const filtered = todos.filter((todo)=>{
       return todo.id !== id;
     })
@@ -44,6 +73,9 @@ function App() {
   }
 
   const updateToDoStatus = (id) => {
+    
+
+
     const update = todos.map((todo)=>{
       if(todo.id === id){
          todo.status = !todo.status
@@ -62,8 +94,10 @@ function App() {
   }
 
 
+
   return (
     <MainWrapper className="App">
+      <GlobalStyle />
       {isLoggedIn === true ?
       <>
         <Logout handleLogOut={handleLogOut} />
@@ -77,7 +111,7 @@ function App() {
        /> 
        </>
        : 
-       <Login handleLogIn={handleLogIn}/>}
+       <Login handleLogIn={handleLogIn} isSignUp={isSignUp} toggleSignup={toggleSignup}/>}
        
     </MainWrapper>
   );

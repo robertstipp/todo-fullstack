@@ -7,20 +7,10 @@ const todoSchema = new Schema({
 
         itemName: String,
         itemValue: String,
-        status: Boolean,
-    }],
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'user'
-    }
+        itemStatus: Boolean
+    }]
 });
 
-{
-    id, 
-    itemName, 
-    status, 
-}
+const Todo = mongoose.model('todo', todoSchema);
 
-const todo = mongoose.model('todo', todoSchema); 
-
-module.exports = Todo; 
+module.exports = Todo;
