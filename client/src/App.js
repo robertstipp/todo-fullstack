@@ -21,7 +21,23 @@ function App() {
   const [todos, setTodos] = useState(userData[0].todos);
   const [activeFilter, setActiveFilter] = useState('all')
 
-  const handleLogIn = (username, password) => {
+  const handleLogIn = async (username, password) => {
+
+    const body = JSON.stringify({username:username, password:password}); 
+    await fetch('http://localhost:3000/user/login', {
+      method: 'POST',
+      body: body,
+      headers: {
+        'Content-Type': 'Application/Json'
+      }
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('Logged In')
+          console.log('<<< RESPONSE', res, '>>>'); 
+        }
+
+    })
    
     if(username === userData[0].username && password === userData[0].password){
       setTimeout(()=>{

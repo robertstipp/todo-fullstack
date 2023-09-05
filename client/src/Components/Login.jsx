@@ -32,7 +32,7 @@ const Login = ({ handleLogIn, isSignUp, toggleSignup }) => {
         <Input value={username} type="text" name="username" id="username" placeholder="Username" autoComplete='off' onChange={(e)=>{
             setUsername(e.target.value);
         }}/>
-        <Input value={password} type="text" name="password" id="password" placeholder="Password" onChange={(e)=>{
+        <Input value={password} type="password" name="password" id="password" placeholder="Password" onChange={(e)=>{
             setPassword(e.target.value);
         }} />
         <Submit 
