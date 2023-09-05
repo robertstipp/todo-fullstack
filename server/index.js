@@ -23,13 +23,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client/build/')));
 
 app.get('/', (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, '../client/build/index.html'));
+  return res.status(200).sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-app.use('/login', userRouter);
+app.use('/user', userRouter);
 
 app.get('/home', (req, res) => {
-  res.status(200).send('Home');
+  return res.status(200).send('Home');
 });
 
 // catch-all route handler for any requests to an unknown route
@@ -37,14 +37,14 @@ app.use((req, res) => res.sendStatus(404));
 
 // global error handler
 app.use((err, req, res, next) => {
-    const defaultErr = {
-        log: 'Express error handler caught unknown middleware error',
-        status: 500,
-        message: {error: `an error occurred -> ${err}`},
-    }
-    const errorObj = Object.assign(defaultErr, err);
-    console.log(errorObj.log);
-    res.status(errorObj.status).json(errorObj.message);
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 500,
+    message: {error: `an error occurred -> ${err}`},
+  }
+  const errorObj = Object.assign(defaultErr, err);
+  console.log(errorObj.log);
+  res.status(errorObj.status).json(errorObj.message);
 });
 
 app.listen(port, () => {
