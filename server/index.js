@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 const path = require('path');
 const mongoose = require('mongoose');
-const userRouter = require('../routes/userRoute.js');
+const userRouter = require('../server/routes/userRoute.js');
 const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
@@ -27,6 +27,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/login', userRouter);
+
+// app.use('/signup', signupRouter); 
 
 app.get('/home', (req, res) => {
   res.status(200).send('Home');

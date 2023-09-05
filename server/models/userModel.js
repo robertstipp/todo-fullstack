@@ -5,11 +5,15 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    todo: {
+    todo: [{
         type: Schema.Types.ObjectId,
         ref: 'todo'
-    }
+    }]
 });
+
+// userSchema.pre('save', async function () {
+
+// });
 
 const User = mongoose.model('user', userSchema);
 
