@@ -66,7 +66,6 @@ function App() {
     <MainWrapper className="App">
       {isLoggedIn === true ?
       <>
-        <Logout handleLogOut={handleLogOut} />
        <TodoContainer 
        todos={todos}
        createNewToDo={createNewToDo}
@@ -75,6 +74,7 @@ function App() {
        toggleFilter={toggleFilter}
        activeFilter={activeFilter}
        /> 
+      <Logout handleLogOut={handleLogOut} />
        </>
        : 
        <Login handleLogIn={handleLogIn}/>}

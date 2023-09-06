@@ -12,9 +12,9 @@ const TodoCreate = ({ createNewToDo }) => {
             setitemName(e.target.value);
         }} />
 
-          <input value={itemValue} type="text" name="itemValue" id="itemValue" onChange={(e)=>{
+          {/* <input value={itemValue} type="text" name="itemValue" id="itemValue" onChange={(e)=>{
             setitemValue(e.target.value);
-        }} />
+        }} /> */}
 
         <button onClick={()=>{
             createNewToDo({itemName, itemValue, id: Date.now(), status: false})
