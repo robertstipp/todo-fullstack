@@ -14,14 +14,17 @@ const createErr = (errInfo) => {
 todoController.addTodo = async (req, res, next) => {
   console.log('=> todoController.addTodo'); 
 
-  const { todo } = req.body; 
-
   try {
+    // Destruct todo object in response body
+    const { todo } = req.body; 
+
+    // If no todo object, send 400 status 
+    if (!todo) return res.sendStatus(400); 
     // Find User in database
     const foundUser = await User.findById(todo.user); 
     
-    // If for any reason user not found,  // ! HOW DO WE WANT TO HANDLE THIS?
-    if (!foundUser) return console.log('=> USER NOT FOUND');
+    // If for any reason user not found
+    if (!foundUser) return res.sendStatus(400);
 
     // Create new Todo document
     const newTodo = await Todo.create(todo); 
@@ -60,10 +63,13 @@ todoController.updateTodo = async (req, res, next) => {
   console.log('=> todoController.updateTodo <='); 
 
   try {
+    // destruct filter update from request body
     const { filter, update } = req.body; 
-    // ! HOW DO WE WANT TO THIS?
-    if (!filter || !update) return; 
-    const updatedTodo = await Todo.findByIdAndUpdate(filter, update, {new: true});
+    // if no filter or update return 400 response 
+    if (!filter || !update) return res.sendStatus(400); 
+    // find todo and update todo
+    const updatedTodo = await Todo.findByIdAndUpdate(filter, update, { new: true });
+    // move to next middleware 
     return next();
   } catch (err) {
     return next(createErr({
@@ -82,7 +88,9 @@ todoController.updateTodo = async (req, res, next) => {
 todoController.deleteTodo = async (req, res, next) => {
   console.log('=> todoController.deleteTodo <=')
   try {
+    // 
     const filter = req.body; 
+    if (!filter) return res.sendStatus(400); 
     await Todo.deleteOne(filter);
     return next(); 
   } catch (err) {
