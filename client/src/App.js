@@ -79,7 +79,7 @@ function App() {
 
     const update = todos.map((todo)=>{
       if(todo.id === id){
-         todo.status = !todo.status
+        todo.status = !todo.status
       }
       return todo;
     })
@@ -102,18 +102,17 @@ function App() {
       {isLoggedIn === true ?
       <>
         <Logout handleLogOut={handleLogOut} />
-       <TodoContainer 
-       todos={todos}
-       createNewToDo={createNewToDo}
-       deleteToDo={deleteToDo}
-       updateToDoStatus={updateToDoStatus}
-       toggleFilter={toggleFilter}
-       activeFilter={activeFilter}
-       /> 
-       </>
-       : 
-       <Login handleLogIn={handleLogIn} isSignUp={isSignUp} toggleSignup={toggleSignup}/>}
-       
+      <TodoContainer 
+      todos={todos}
+      createNewToDo={createNewToDo}
+      deleteToDo={deleteToDo}
+      updateToDoStatus={updateToDoStatus}
+      toggleFilter={toggleFilter}
+      activeFilter={activeFilter}
+      /> 
+      </>
+      : 
+      <Login handleLogIn={handleLogIn} isSignUp={isSignUp} toggleSignup={toggleSignup}/>}
     </MainWrapper>
   );
 }
