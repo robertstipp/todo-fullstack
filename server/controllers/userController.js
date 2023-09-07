@@ -6,7 +6,7 @@ const userController = {};
 const createErr = (errInfo) => {
     const { method, status, err, message } = errInfo;
     return { 
-      log: `userController.${method} ${status}}`,
+      log: `userController.${method} => -|- ${message} -|- `,
       message: { error: message || `Error occurred in userController.${method}. ERROR: Check server logs for more details.` },
       status: status
     };
@@ -62,10 +62,10 @@ userController.createUser = async (req, res, next) => {
     });
 }
 
+
 // verifies username and password by finding user and comparing passed password aganist hashed password 
 userController.verifyUser = async (req, res, next) => {
   console.log('<<< userController.verifyUser >>>')
-  console.log('<<< REQUEST BODY', req.body, '>>>'); 
   
   // destruct username and password from req body object
   const { username, password } = req.body; 
@@ -83,7 +83,7 @@ userController.verifyUser = async (req, res, next) => {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
       console.log('not valid')
-      return res.redirect('/signup');
+      return res.redirect('/user');
     }
     return next(); 
   } catch(err) {

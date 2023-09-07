@@ -4,6 +4,7 @@ const port = 3000;
 const path = require('path');
 const mongoose = require('mongoose');
 const userRouter = require('./routes/userRoute.js');
+const todoRouter = require('./routes/todoRoute.js'); 
 const cookieParser = require('cookie-parser');
 const cors = require('cors'); 
 
@@ -17,12 +18,12 @@ const corsOptions = {
 require('dotenv').config();
 
 mongoose.connect(process.env.URI)
-    .then(() => {
-        console.log('Connected to DB');
-    })
-    .catch(err => {
-        console.log(`error => ${err}`);
-    });
+  .then(() => {
+    console.log('Connected to DB');
+  })
+  .catch(err => {
+    console.log(`error => ${err}`);
+  });
 
 app.use(cors(corsOptions)); 
 app.use(express.json());
@@ -46,6 +47,8 @@ app.get('/', (req, res) => {
 
 app.use('/user', userRouter);
 
+app.use('/todo', todoRouter); 
+
 app.get('/home', (req, res) => {
   return res.status(200).send('Home');
 });
@@ -61,7 +64,7 @@ app.use((err, req, res, next) => {
     message: {error: `an error occurred -> ${err}`},
   }
   const errorObj = Object.assign(defaultErr, err);
-  console.log(errorObj.log);
+  console.log('<<< LOG ', errorObj.log, '>>>');
   res.status(errorObj.status).json(errorObj.message);
 });
 
