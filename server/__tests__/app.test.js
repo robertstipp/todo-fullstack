@@ -30,7 +30,7 @@ describe('POST /users/login', () => {
     }) 
   }); 
 
-  describe('When the username and password is missing', async () => {
-    // should response with a status code 400 
-  })
+  // describe('When the username and password is missing', async () => {
+  //   // should response with a status code 400 
+  // })
 }); 

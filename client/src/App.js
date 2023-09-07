@@ -34,19 +34,20 @@ function App() {
       .then((res) => {
         if (res.status === 200) {
           console.log('Logged In')
-          console.log('<<< RESPONSE', res, '>>>'); 
+          console.log('<<< RESPONSE', res, '>>>');
+          setIsLoggedIn(true); 
+          return true
         }
 
     })
-   
-    if(username === userData[0].username && password === userData[0].password){
-      setTimeout(()=>{
-        setIsLoggedIn(true);
-        setTodos(userData[0].todos);
-      },1000)
-    
-      return true
-    }
+    // if(username === userData[0].username && password === userData[0].password){
+    //   setTimeout(()=>{
+    //     setIsLoggedIn(true);
+    //     setTodos(userData[0].todos);
+    //   },1000)
+  
+    //   return true
+    // }
     return false
 };
 
@@ -78,7 +79,7 @@ function App() {
 
     const update = todos.map((todo)=>{
       if(todo.id === id){
-         todo.status = !todo.status
+        todo.status = !todo.status
       }
       return todo;
     })
@@ -101,18 +102,17 @@ function App() {
       {isLoggedIn === true ?
       <>
         <Logout handleLogOut={handleLogOut} />
-       <TodoContainer 
-       todos={todos}
-       createNewToDo={createNewToDo}
-       deleteToDo={deleteToDo}
-       updateToDoStatus={updateToDoStatus}
-       toggleFilter={toggleFilter}
-       activeFilter={activeFilter}
-       /> 
-       </>
-       : 
-       <Login handleLogIn={handleLogIn} isSignUp={isSignUp} toggleSignup={toggleSignup}/>}
-       
+      <TodoContainer 
+      todos={todos}
+      createNewToDo={createNewToDo}
+      deleteToDo={deleteToDo}
+      updateToDoStatus={updateToDoStatus}
+      toggleFilter={toggleFilter}
+      activeFilter={activeFilter}
+      /> 
+      </>
+      : 
+      <Login handleLogIn={handleLogIn} isSignUp={isSignUp} toggleSignup={toggleSignup}/>}
     </MainWrapper>
   );
 }
