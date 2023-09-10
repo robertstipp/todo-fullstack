@@ -14,8 +14,7 @@ const Login = () => {
     const dispatch = useDispatch();
     
     const handleLoginClick = () => {
-        const success = dispatch(handleLogin(username,password))
-        console.log(success)
+        dispatch(handleLogin(username,password))
     }
 
     return (

@@ -1,13 +1,18 @@
 import React from 'react'
 
-const TodoListitem = ({ todo, key, deleteToDo, updateToDoStatus }) => {
+import { useDispatch } from 'react-redux'
+
+const TodoListitem = ({ todo, key, deleteToDo, updateTodoStatus }) => {
+
+  const dispatch = useDispatch();
+
   return (
     <div>{todo.itemName}
     <button onClick={()=>{
-      deleteToDo(todo.id)
+      dispatch(deleteToDo(todo.id))
     }} >Delete</button>
     <input type="checkbox" checked={todo.status} onChange={()=>{
-      updateToDoStatus(todo.id)
+      dispatch(updateTodoStatus(todo.id))
     }}></input>
     </div>
   )

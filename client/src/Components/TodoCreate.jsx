@@ -1,10 +1,14 @@
 import React from 'react'
 import { useState } from 'react';
 
-const TodoCreate = ({ createNewToDo }) => {
+import { useDispatch } from 'react-redux';
+
+const TodoCreate = ({ addTodo }) => {
+
     const [itemName, setitemName] = useState('');
     const [itemValue, setitemValue] = useState('');
 
+    const dispatch = useDispatch()
   return (
     <div>
         <h2>Create A New ToDo</h2>
@@ -17,7 +21,7 @@ const TodoCreate = ({ createNewToDo }) => {
         }} />
 
         <button onClick={()=>{
-            createNewToDo({itemName, itemValue, id: Date.now(), status: false})
+            dispatch(addTodo({itemName, itemValue, id: Date.now(), status: false}))
             setitemName('')
             setitemValue('')
         }}>Submit</button>
