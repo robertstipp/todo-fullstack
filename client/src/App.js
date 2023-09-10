@@ -82,10 +82,6 @@ function App() {
     setActiveFilter(status)
   }
 
-  const filterTodos = (status) => {
-    todos.filter()
-  }
-
 
 
   return (
