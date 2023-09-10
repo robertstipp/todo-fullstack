@@ -22,10 +22,16 @@ export const userSlice = createSlice({
       
       // TODO - FETCH REQUEST TO API
       state.loggedIn = true;
+    },
+    handleLogout: (state, action) => {
+      // TODO - LOGOUT
+      state.loggedIn = false;
     }
+
+
   }
 })
 
-export const {setUserName, setPassword, handleLogin} = userSlice.actions;
+export const {setUserName, setPassword, handleLogin, handleLogout} = userSlice.actions;
 
 export default userSlice.reducer;

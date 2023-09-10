@@ -9,25 +9,22 @@ import {useSelector, useDispatch} from 'react-redux'
 import {setUserName, setPassword, handleLogin} from '../userSlice.js'
 
 
-const Login = ({isSignUp, toggleSignup }) => {
-    const {username,password} = useSelector(state=>state);
+const Login = () => {
+    const {username,password} = useSelector(state=>state.user);
     const dispatch = useDispatch();
     
     const handleLoginClick = () => {
-        dispatch(handleLogin(username,password))
-        // const isSuccess = handleLogIn(username,password)
+        const success = dispatch(handleLogin(username,password))
+        console.log(success)
     }
 
-  return (
+    return (
     <Wrapper>
         <Art />
         <Greeting>
             <h1>Welcome Back</h1>
             <p>Please Enter Your Details</p>
         </Greeting>
-        {/* <Input value={username} type="text" name="username" id="username" placeholder="Username" autoComplete='off' onChange={(e)=>{
-            setUsername(e.target.value);
-        }}/> */}
         <Input value={username} type="text" name="username" id="username" placeholder="Username" autoComplete='off' onChange={(e)=>{
             dispatch(setUserName(e.target.value));
         }}/>
@@ -36,9 +33,9 @@ const Login = ({isSignUp, toggleSignup }) => {
         }} />
         <Submit 
             onClick={handleLoginClick}
-        >{isSignUp ?"Submit" : "Login"}
+        >Login
         </Submit>
-        <SignUp>If you don't already have an account, please <span onClick={toggleSignup}>Sign-Up</span></SignUp>
+        <SignUp>If you don't already have an account, please <span>Sign-Up</span></SignUp>
     </Wrapper>
   )
 }
