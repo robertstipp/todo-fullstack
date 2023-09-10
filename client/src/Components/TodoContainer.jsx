@@ -4,13 +4,12 @@ import TodoList from './TodoList'
 import TodoFilter from './TodoFilter'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addTodo, deleteTodo, updateTodoStatus } from '../todoSlice.js'
+import { addTodo, deleteTodo, updateTodoStatus, toggleTodoFilter } from '../todoSlice.js'
 
 
-const TodoContainer = ({updateToDoStatus, toggleFilter, activeFilter }) => {
+const TodoContainer = () => {
 
-  const {todos} = useSelector(state=>state.todos)
-
+  const {todos, activeFilter} = useSelector(state=>state.todos)
   return (
     <div>TodoContainer
         <TodoCreate
@@ -23,7 +22,7 @@ const TodoContainer = ({updateToDoStatus, toggleFilter, activeFilter }) => {
         activeFilter = {activeFilter}
         />
         <TodoFilter
-        toggleFilter={toggleFilter}
+        toggleTodoFilter={toggleTodoFilter}
         />
     </div>
   )

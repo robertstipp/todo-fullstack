@@ -1,16 +1,21 @@
 import React from 'react'
 import TodoListitem from './TodoListitem'
+import EditableListItem from './EditableListItem'
 
 
+const TodoList = ({ todos, deleteTodo, updateTodoStatus, activeFilter }) => {
 
-const TodoList = ({ todos, deleteTodo, updateTodoStatus }) => {
-
-  
+  const filteredTodos = todos.reduce((acc,curr)=>{
+    if (activeFilter === 'all') acc.push(curr);
+    if (activeFilter === 'completed' && curr.status === true) acc.push(curr)
+    if (activeFilter === 'todo' && curr.status === false) acc.push(curr)
+    return acc
+  },[])
     
   return (
     <>
-    {todos.map((todo)=>{
-        return <TodoListitem 
+    {filteredTodos.map((todo)=>{
+        return <TodoListitem
         todo={todo} 
         key={todo.id} 
         deleteTodo={deleteTodo}
