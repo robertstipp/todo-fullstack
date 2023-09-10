@@ -2,19 +2,22 @@ import React from 'react'
 import { useState } from 'react'
 import user from '../utils/data/users.json'
 import styled, { keyframes,css } from 'styled-components'
-
 import Art from './Art'
 
-const Login = ({ handleLogIn, isSignUp, toggleSignup }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    
+
+import {useSelector, useDispatch} from 'react-redux'
+import {setUserName, setPassword, handleLogin} from '../userSlice.js'
+
+
+const Login = () => {
+    const {username,password} = useSelector(state=>state.user);
+    const dispatch = useDispatch();
     
     const handleLoginClick = () => {
-        const isSuccess = handleLogIn(username,password)
+        dispatch(handleLogin(username,password))
     }
 
-  return (
+    return (
     <Wrapper>
         <Art />
         <Greeting>
@@ -22,16 +25,16 @@ const Login = ({ handleLogIn, isSignUp, toggleSignup }) => {
             <p>Please Enter Your Details</p>
         </Greeting>
         <Input value={username} type="text" name="username" id="username" placeholder="Username" autoComplete='off' onChange={(e)=>{
-            setUsername(e.target.value);
+            dispatch(setUserName(e.target.value));
         }}/>
         <Input value={password} type="password" name="password" id="password" placeholder="Password" onChange={(e)=>{
-            setPassword(e.target.value);
+            dispatch(setPassword(e.target.value));
         }} />
         <Submit 
             onClick={handleLoginClick}
-        >{isSignUp ?"Submit" : "Login"}
+        >Login
         </Submit>
-        <SignUp>If you don't already have an account, please <span onClick={toggleSignup}>Sign-Up</span></SignUp>
+        <SignUp>If you don't already have an account, please <span>Sign-Up</span></SignUp>
     </Wrapper>
   )
 }
@@ -101,18 +104,13 @@ padding: 10px;
 border: 1px solid black;
 border-radius: 7px;
 /* background: ${(props) => props.loginSuccessful ? 'green' : 'black'}; */
-background: ${(props) => true ? 'green' : 'black'};
+background: black;
 color: white;
 font-family: var(--main-font);
-${props => props.loginFailed && css`
-    animation: ${shake} 1s ease-in-out;
-  `}
 cursor: pointer;
 &:hover {
-    /* background: ${(props) => props.loginSuccessful ? 'green' : 'grey'}; */
-    background: ${(props) => true ? 'green' : 'grey'};
+    background: grey;
 }
-
 `
 
 const SignUp = styled.p`

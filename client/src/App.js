@@ -1,10 +1,12 @@
-import Login from "./Components/Login";
-import TodoContainer from "./Components/TodoContainer";
 import { useState } from "react";
-import { useEffect } from "react";
-import userData from "./utils/data/users.json";
-import Logout from "./Components/Logout";
+import {useSelector } from "react-redux";
 import {styled, createGlobalStyle} from 'styled-components';
+
+import Login from "./Components/Login";
+import Logout from "./Components/Logout";
+import TodoContainer from "./Components/TodoContainer";
+
+import userData from "./utils/data/users.json";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
@@ -16,8 +18,9 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isSignUp, setIsSignUp] = useState(false)
+  const {loggedIn} = useSelector(state=>state.user)
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [todos, setTodos] = useState(userData[0].todos);
   const [activeFilter, setActiveFilter] = useState('all')
 
@@ -40,24 +43,13 @@ function App() {
         }
 
     })
-    // if(username === userData[0].username && password === userData[0].password){
-    //   setTimeout(()=>{
-    //     setIsLoggedIn(true);
-    //     setTodos(userData[0].todos);
-    //   },1000)
-  
-    //   return true
-    // }
+
     return false
 };
 
   const handleLogOut = () => {
     setIsLoggedIn(false);
     setTodos([]);
-  }
-
-  const toggleSignup = () => {
-    setIsSignUp(true)
   }
 
   const createNewToDo = (newToDo) => {
@@ -95,9 +87,9 @@ function App() {
   return (
     <MainWrapper className="App">
       <GlobalStyle />
-      {isLoggedIn === true ?
+      {loggedIn === true ?
       <>
-        <Logout handleLogOut={handleLogOut} />
+      <Logout handleLogOut={handleLogOut} />
       <TodoContainer 
       todos={todos}
       createNewToDo={createNewToDo}
@@ -108,7 +100,7 @@ function App() {
       /> 
       </>
       : 
-      <Login handleLogIn={handleLogIn} isSignUp={isSignUp} toggleSignup={toggleSignup}/>}
+      <Login handleLogIn={handleLogIn}/>}
     </MainWrapper>
   );
 }
