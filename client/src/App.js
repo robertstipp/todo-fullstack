@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isSignUp, setIsSignUp] = useState(false)
   const [todos, setTodos] = useState(userData[0].todos);
   const [activeFilter, setActiveFilter] = useState('all')
@@ -88,10 +88,6 @@ function App() {
 
   const toggleFilter = (status) => {
     setActiveFilter(status)
-  }
-
-  const filterTodos = (status) => {
-    todos.filter()
   }
 
 
