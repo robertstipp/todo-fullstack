@@ -72,7 +72,7 @@ userController.verifyUser = async (req, res, next) => {
 
   // if no username or password redirect to signup
   if (!username || !password) {
-    res.redirect('/signup'); 
+    return res.redirect('/signup'); 
   }
   // check database for user with passed in username 
   try {

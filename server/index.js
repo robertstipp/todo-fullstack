@@ -8,10 +8,10 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors'); 
 
 const corsOptions = {
-  origin: '*',
+  origin: 'http://localhost:3001',
   methods: 'POST', 
   allowedHeaders:'Content-Type',
-  'Access-Control-Allow-Origin': '*'
+  Credential: true // MAKE SURE THIS STAYS TRUE, NEEDED FOR USING COOKIES WITH CORS
 }
 
 require('dotenv').config();
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
-  next();
+  return next();
 });
 
 app.get('/', (req, res) => {
@@ -45,10 +45,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRouter);
-
-app.get('/home', (req, res) => {
-  return res.status(200).send('Home');
-});
 
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.status(404).send('bad request'));
