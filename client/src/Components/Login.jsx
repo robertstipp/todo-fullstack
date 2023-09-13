@@ -7,14 +7,15 @@ import Art from './Art'
 
 import {useSelector, useDispatch} from 'react-redux'
 import {setUserName, setPassword, handleLogin} from '../userSlice.js'
-
+import { loginUser } from '../userSlice.js'
 
 const Login = () => {
     const {username,password} = useSelector(state=>state.user);
     const dispatch = useDispatch();
     
     const handleLoginClick = () => {
-        dispatch(handleLogin(username,password))
+        // dispatch(handleLogin(username,password))
+        dispatch(loginUser(username,password))
     }
 
     return (
