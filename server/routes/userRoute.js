@@ -16,11 +16,17 @@ Router
         return res.status(200).json(res.locals.user);
     });
 
-    Router
+Router
     .route('/cookie')
     .post(authenticationController.createCookie, (req, res) => {
         return res.status(200).send('cookie set');
     });
+
+Router
+    .route('/logout')
+    .post(authenticationController.clearCookie, (req, res) => {
+        return res.status(200).send('Cookie Cleared')
+    })
 
 // endpoint
 module.exports = Router;
