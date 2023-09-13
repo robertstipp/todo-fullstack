@@ -1,10 +1,12 @@
-import Login from "./Components/Login";
-import TodoContainer from "./Components/TodoContainer";
 import { useState } from "react";
-import { useEffect } from "react";
-import userData from "./utils/data/users.json";
-import Logout from "./Components/Logout";
+import {useSelector } from "react-redux";
 import {styled, createGlobalStyle} from 'styled-components';
+
+import Login from "./Components/Login";
+import Logout from "./Components/Logout";
+import TodoContainer from "./Components/TodoContainer";
+
+import userData from "./utils/data/users.json";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
@@ -16,8 +18,9 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
 
+  const {loggedIn} = useSelector(state=>state.user)
+  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false)
   const [todos, setTodos] = useState(userData[0].todos);
   const [activeFilter, setActiveFilter] = useState('all')
 
@@ -34,29 +37,19 @@ function App() {
       .then((res) => {
         if (res.status === 200) {
           console.log('Logged In')
-          console.log('<<< RESPONSE', res, '>>>'); 
+          console.log('<<< RESPONSE', res, '>>>');
+          setIsLoggedIn(true); 
+          return true
         }
 
     })
-   
-    if(username === userData[0].username && password === userData[0].password){
-      setTimeout(()=>{
-        setIsLoggedIn(true);
-        setTodos(userData[0].todos);
-      },1000)
-    
-      return true
-    }
+
     return false
 };
 
   const handleLogOut = () => {
     setIsLoggedIn(false);
     setTodos([]);
-  }
-
-  const toggleSignup = () => {
-    setIsSignUp(true)
   }
 
   const createNewToDo = (newToDo) => {
@@ -78,7 +71,7 @@ function App() {
 
     const update = todos.map((todo)=>{
       if(todo.id === id){
-         todo.status = !todo.status
+        todo.status = !todo.status
       }
       return todo;
     })
@@ -89,30 +82,25 @@ function App() {
     setActiveFilter(status)
   }
 
-  const filterTodos = (status) => {
-    todos.filter()
-  }
-
 
 
   return (
     <MainWrapper className="App">
       <GlobalStyle />
-      {isLoggedIn === true ?
+      {loggedIn === true ?
       <>
-        <Logout handleLogOut={handleLogOut} />
-       <TodoContainer 
-       todos={todos}
-       createNewToDo={createNewToDo}
-       deleteToDo={deleteToDo}
-       updateToDoStatus={updateToDoStatus}
-       toggleFilter={toggleFilter}
-       activeFilter={activeFilter}
-       /> 
-       </>
-       : 
-       <Login handleLogIn={handleLogIn} isSignUp={isSignUp} toggleSignup={toggleSignup}/>}
-       
+      <Logout handleLogOut={handleLogOut} />
+      <TodoContainer 
+      todos={todos}
+      createNewToDo={createNewToDo}
+      deleteToDo={deleteToDo}
+      updateToDoStatus={updateToDoStatus}
+      toggleFilter={toggleFilter}
+      activeFilter={activeFilter}
+      /> 
+      </>
+      : 
+      <Login handleLogIn={handleLogIn}/>}
     </MainWrapper>
   );
 }

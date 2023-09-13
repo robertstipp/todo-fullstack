@@ -1,17 +1,22 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
-const TodoFilter = ({ toggleFilter }) => {
+
+const TodoFilter = ({ toggleTodoFilter, activeFilter }) => {
+
+  const dispatch = useDispatch()
+
   return ( 
     <>
-    <h4>Filter</h4>
+    <h4>Filter: {activeFilter}</h4>
     <button onClick={()=>{
-        toggleFilter('all')
+        dispatch(toggleTodoFilter('all'))
     }}>All</button>
     <button onClick={()=>{
-        toggleFilter('completed')
+        dispatch(toggleTodoFilter('completed'))
     }}>Completed</button>
     <button onClick={()=>{
-        toggleFilter('todo')
+        dispatch(toggleTodoFilter('todo'))
     }}>To Do</button>
     </>
   )

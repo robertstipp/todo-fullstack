@@ -7,7 +7,7 @@ const Router = express.Router();
 Router
     .route('/login')
     .post(userController.verifyUser, userController.getUser, (req, res) => {
-       return res.status(200).send(res.locals.user);
+        return res.status(200).send(res.locals.user);
     });
 
 Router
