@@ -31,7 +31,6 @@ export const todoSlice = createSlice({
       }
     },
     toggleTodoFilter: (state,action) => {
-      console.log(action.payload)
       state.activeFilter = action.payload
     }
   }
