@@ -14,6 +14,17 @@ export const loginUser = createAsyncThunk(
     }
   }
 )
+export const signupUser = createAsyncThunk(
+  "users/signup",
+  async (credentials, thunkAPI) => {
+    try {
+      const data = await userAPI.signup(credentials)
+      console.log(data)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
 
 const initialState = {
   username : '',
@@ -58,7 +69,17 @@ export const userSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message
       })
-
+      .addCase(signupUser.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(signupUser.fulfilled, (state) => {
+        state.status = 'succeeded'
+        state.loggedIn = true
+      })
+      .addCase(signupUser.rejected, (state,action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
   }
 })
 

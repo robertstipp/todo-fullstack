@@ -13,5 +13,17 @@ export const userAPI = {
         'Content-Type': 'application/json'
       }
     })
+  },
+  signup: (credentials) => {
+    return axios.post(`${baseURL}/user/signup`, {
+      username: 'bobby10',
+      password: "pass123"
+    },{
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
+
 }
