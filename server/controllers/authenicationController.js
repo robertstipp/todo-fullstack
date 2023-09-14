@@ -16,12 +16,10 @@ const authenticationController = {
         if (!req.cookies.token) res.redirect('/login');
         const { token } = req.cookies; 
         jwt.verify(token, process.env.KEY, (err, decoded) => {
-            if (!err) return next()
-            if (err) {
-                console.log('Error verifying token: ', err);
-                res.clearCookie('token', { path: '/', httpOnly: true, secure: true });
-                res.redirect('/login');
-            }
+            if (!err) {
+                console.log(decoded); 
+                return next(); 
+            } 
         })
     }, 
     

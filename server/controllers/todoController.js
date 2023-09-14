@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const createErr = (errInfo) => {
   const { method, status, err, message } = errInfo;
   return { 
-    log: `userController.${method} ${status}}`,
-    message: { error: message || `Error occurred in userController.${method}. ERROR: Check server logs for more details.` },
+    log: `todoController.${method} ${status}}`,
+    message: { error: message || `Error occurred in todoController.${method}. ERROR: Check server logs for more details.` },
     status: status
   };
 };
@@ -25,12 +25,15 @@ const todoController = {
 
   addTodo: async (req, res, next) => {
     try {
+      console.log('todoController.addTod');
       const { itemName, itemValue, itemStatus } = req.body;
+      console.log(itemName, itemValue, itemStatus); 
       const { id } = await jwt.verify(req.cookies.token, process.env.KEY)
+      console.log('<<<', id); 
       const user = await User.findById({ _id: id }); 
       user.todos.push({ itemName: itemName, itemValue: itemValue, itemStatus: itemStatus })
-      res.locals.todo = user.todos[user.todos.length-1];
       user.save(); 
+      res.locals.todo = user.todos[user.todos.length-1];
       return next(); 
       
     } catch (err) {
@@ -46,7 +49,7 @@ const todoController = {
     try {
       console.log('todoController.updateTodo');
       const { id: userId } = await jwt.verify(req.cookies.token, process.env.KEY)
-      const filter = { _id: userId, 'todos._id': req.params.id }
+      const filter = { _id: userId, 'todos._id': req.query.id }
       const update = createUpdate(req.body); 
       await User.findOneAndUpdate(filter, update);
       next(); 
@@ -63,7 +66,7 @@ const todoController = {
   deleteTodo: async (req, res, next) => {
     try {
       console.log('todoController.deleteTodo');
-      const todoId = req.params.id;
+      const todoId = req.query.id;
       const { id } = await jwt.verify(req.cookies.token, process.env.KEY)
       const user = await User.findById({ _id: id });
       await user.todos.pull(todoId);
