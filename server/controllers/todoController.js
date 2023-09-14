@@ -49,7 +49,7 @@ const todoController = {
     try {
       console.log('todoController.updateTodo');
       const { id: userId } = await jwt.verify(req.cookies.token, process.env.KEY)
-      const filter = { _id: userId, 'todos._id': req.query.id }
+      const filter = { _id: userId, 'todos._id': req.params.id }
       const update = createUpdate(req.body); 
       await User.findOneAndUpdate(filter, update);
       next(); 
@@ -66,7 +66,7 @@ const todoController = {
   deleteTodo: async (req, res, next) => {
     try {
       console.log('todoController.deleteTodo');
-      const todoId = req.query.id;
+      const todoId = req.params.id;
       const { id } = await jwt.verify(req.cookies.token, process.env.KEY)
       const user = await User.findById({ _id: id });
       await user.todos.pull(todoId);
