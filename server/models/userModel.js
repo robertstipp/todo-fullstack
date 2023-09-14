@@ -15,8 +15,11 @@ const userSchema = new Schema({
 });
 
 
-userSchema.pre('save', async function(next) {
-    this.password = bcrypt.hashSync(this.password, SALT_WORK_FACTOR);
+userSchema.pre('save', async function (next) {
+    console.log('userSchema.pre')
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hashSync(this.password, SALT_WORK_FACTOR);
+    }
     return next();
 })
 

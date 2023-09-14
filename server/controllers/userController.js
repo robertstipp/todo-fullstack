@@ -64,9 +64,8 @@ userController.createUser = async (req, res, next) => {
 
 // verifies username and password by finding user and comparing passed password aganist hashed password 
 userController.verifyUser = async (req, res, next) => {
+  try {
   console.log('<<< userController.verifyUser >>>')
-  console.log('<<< REQUEST BODY', req.body, '>>>'); 
-  
   // destruct username and password from req body object
   const { username, password } = req.body; 
 
@@ -75,7 +74,6 @@ userController.verifyUser = async (req, res, next) => {
     return res.redirect('/signup'); 
   }
   // check database for user with passed in username 
-  try {
     const user = await User.findOne({ username: username });
     if (!user) {
       return res.status(404).json({error: `couldn't find user with username ${username}`});
@@ -85,6 +83,7 @@ userController.verifyUser = async (req, res, next) => {
       console.log('not valid')
       return res.redirect('/signup');
     }
+    res.locals.id = user._id; 
     return next(); 
   } catch(err) {
     return next(createErr({err: err, method: 'verifyUser', message: err.message || 'Error occurred in verifyUser: Couldn\'t find user.'}));

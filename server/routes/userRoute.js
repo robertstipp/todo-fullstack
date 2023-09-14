@@ -6,7 +6,7 @@ const Router = express.Router();
 
 Router
     .route('/login')
-    .post(userController.verifyUser, userController.getUser, (req, res) => {
+    .post(userController.verifyUser, authenticationController.createCookie, userController.getUser, (req, res) => {
         return res.status(200).send(res.locals.user);
     });
 
@@ -25,7 +25,7 @@ Router
 Router
     .route('/logout')
     .post(authenticationController.clearCookie, (req, res) => {
-        return res.status(200).send('Cookie Cleared')
+        return res.status(200).send('Cookie Cleared');
     })
 
 // endpoint
