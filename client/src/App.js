@@ -89,7 +89,6 @@ function App() {
       <GlobalStyle />
       {loggedIn === true ?
       <>
-      <Logout handleLogOut={handleLogOut} />
       <TodoContainer 
       todos={todos}
       createNewToDo={createNewToDo}
