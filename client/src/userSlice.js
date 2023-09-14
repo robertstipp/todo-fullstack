@@ -74,6 +74,8 @@ export const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state) => {
         state.status = 'succeeded'
         state.loggedIn = true
+        state.username = ''
+        state.password = ''
       })
       .addCase(loginUser.rejected, (state,action) => {
         state.status = 'failed'
@@ -85,6 +87,8 @@ export const userSlice = createSlice({
       .addCase(signupUser.fulfilled, (state) => {
         state.status = 'succeeded'
         state.loggedIn = true
+        state.username = ''
+        state.password = ''
       })
       .addCase(signupUser.rejected, (state,action) => {
         state.status = 'failed'

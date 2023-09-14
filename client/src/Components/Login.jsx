@@ -18,7 +18,7 @@ const Login = () => {
         isSignup ? dispatch(signupUser({username,password})) : dispatch(loginUser({username,password}))
     }
     const toggleSubmit = () => {
-        setIsSignup(true)
+        setIsSignup(!isSignup)
     }
 
     return (
@@ -38,8 +38,9 @@ const Login = () => {
             onClick={handleSubmit}
         > {isSignup ? "Signup" : "Login"}
         </Submit>
-        {isSignup ||
-        <SignUp>If you don't already have an account, please <span onClick={toggleSubmit}>Sign-Up</span></SignUp>
+        {isSignup 
+        ? <SignUp>If you already have an account, please <span onClick={toggleSubmit}>Login</span></SignUp>
+        : <SignUp>If you don't already have an account, please <span onClick={toggleSubmit}>Sign-Up</span></SignUp>
         }        
     </Wrapper>
   )
