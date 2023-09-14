@@ -9,14 +9,13 @@ import {useSelector, useDispatch} from 'react-redux'
 import {setUserName, setPassword, handleLogin} from '../userSlice.js'
 import { loginUser, signupUser } from '../userSlice.js'
 
-const Login = () => {
+const Login = ({toggleSignupModal}) => {
     const {username,password} = useSelector(state=>state.user);
     const dispatch = useDispatch();
     
     const handleLoginClick = () => {
-        // dispatch(handleLogin(username,password))
-        // dispatch(loginUser(username,password))
-        dispatch(signupUser(username,password))
+        dispatch(loginUser(username,password))
+        // dispatch(signupUser(username,password))
     }
 
     return (
@@ -36,7 +35,7 @@ const Login = () => {
             onClick={handleLoginClick}
         >Login
         </Submit>
-        <SignUp>If you don't already have an account, please <span>Sign-Up</span></SignUp>
+        <SignUp>If you don't already have an account, please <span onClick={toggleSignupModal}>Sign-Up</span></SignUp>
     </Wrapper>
   )
 }
