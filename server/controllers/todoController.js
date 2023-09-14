@@ -28,7 +28,7 @@ const todoController = {
       const { itemName, itemValue, itemStatus } = req.body;
       const { id } = await jwt.verify(req.cookies.token, process.env.KEY)
       const user = await User.findById({ _id: id }); 
-      const todo = user.todos.push({ itemName: itemName, itemValue: itemValue, itemStatus: itemStatus })
+      user.todos.push({ itemName: itemName, itemValue: itemValue, itemStatus: itemStatus })
       res.locals.todo = user.todos[user.todos.length-1];
       user.save(); 
       return next(); 
