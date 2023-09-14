@@ -20,10 +20,10 @@ const TodoContainer = () => {
         <TodoCreate
         addTodo = {addTodo}
         />
-         <TodoFilter
+        <TodoFilter
         toggleTodoFilter={toggleTodoFilter}
         />
-         <Logout handleLogout={ handleLogout } />
+        <Logout handleLogout={ handleLogout } />
         </Controls>
         <Display>
         <TodoList

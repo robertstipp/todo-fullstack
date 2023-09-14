@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {useSelector } from "react-redux";
 import {styled, createGlobalStyle} from 'styled-components';
 
@@ -38,6 +37,5 @@ height: 100vh;
 margin: 30px 30px;
 padding: 20px 20px;
 `
-
 
 export default App;

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState } from 'react'
-import user from '../utils/data/users.json'
 import styled, { keyframes,css } from 'styled-components'
 import Art from './Art'
 
@@ -9,13 +8,17 @@ import {useSelector, useDispatch} from 'react-redux'
 import {setUserName, setPassword, handleLogin} from '../userSlice.js'
 import { loginUser, signupUser } from '../userSlice.js'
 
-const Login = ({toggleSignupModal}) => {
+const Login = () => {
+    const [isSignup, setIsSignup] = useState(false)
+
     const {username,password} = useSelector(state=>state.user);
     const dispatch = useDispatch();
     
-    const handleLoginClick = () => {
-        dispatch(loginUser(username,password))
-        // dispatch(signupUser(username,password))
+    const handleSubmit = () => {
+        isSignup ? dispatch(signupUser({username,password})) : dispatch(loginUser({username,password}))
+    }
+    const toggleSubmit = () => {
+        setIsSignup(true)
     }
 
     return (
@@ -32,10 +35,12 @@ const Login = ({toggleSignupModal}) => {
             dispatch(setPassword(e.target.value));
         }} />
         <Submit 
-            onClick={handleLoginClick}
-        >Login
+            onClick={handleSubmit}
+        > {isSignup ? "Signup" : "Login"}
         </Submit>
-        <SignUp>If you don't already have an account, please <span onClick={toggleSignupModal}>Sign-Up</span></SignUp>
+        {isSignup ||
+        <SignUp>If you don't already have an account, please <span onClick={toggleSubmit}>Sign-Up</span></SignUp>
+        }        
     </Wrapper>
   )
 }
