@@ -19,7 +19,7 @@ Router
 Router
   .route('/:id')
   .delete(authenticationController.verifyCookie, todoController.deleteTodo, (req, res) => {
-  
+    res.sendStatus(200);
 })
 
 module.exports = Router; 

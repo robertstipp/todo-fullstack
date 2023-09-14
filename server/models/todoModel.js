@@ -3,14 +3,6 @@ const User = require('./userModel');
 
 const Schema = mongoose.Schema;
 
-// const todoSchema = new Schema({
-//     items: [{
-//         itemName: String,
-//         itemValue: String,
-//         itemStatus: Boolean
-//     }]
-// });
-
 const todoSchema = new Schema({
     itemName: { type: String, required: true },
     itemValue: { type: String },
@@ -22,9 +14,10 @@ const todoSchema = new Schema({
     },
 }); 
 
-todoSchema.post('save', async function (doc) {
+todoSchema.pre('save', async function (doc) {
     console.log('todoSchema.post-save')
     if (this.isNew) {
+        console.log('isNew')
         const user = await User.findById({ _id: this.user });
         user.todos.push(this);
         user.save();

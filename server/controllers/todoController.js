@@ -18,7 +18,7 @@ const todoController = {
       const { itemName, itemValue, itemStatus } = req.body; 
       const { id } = await jwt.verify(req.cookies.token, process.env.KEY)
       const todo = await Todo.create({ itemName: itemName, itemValue: itemValue, itemStatus: itemStatus, user: id }) 
-      if (!todo) return // error message stating failed to create todo and reason why
+      if (!todo) return res.sendStatus(400);
       res.locals.todo = todo; 
       return next(); 
       
@@ -51,8 +51,8 @@ const todoController = {
 
   deleteTodo: async (req, res, next) => {
     console.log('todoController.deleteTodo');
-    const { id: ToDoIdToRemove } = req.body; 
-    await Todo.findOneAndDelete({ _id: ToDoIdToRemove });
+    const { id } = req.params; 
+    await Todo.findOneAndDelete({ _id: id });
     next();
   },
 
