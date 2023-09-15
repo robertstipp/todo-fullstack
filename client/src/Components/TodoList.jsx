@@ -3,6 +3,7 @@ import TodoListitem from './TodoListitem'
 import EditableListItem from './EditableListItem'
 
 
+
 const TodoList = ({ todos, deleteTodo, updateTodoStatus, activeFilter }) => {
 
   const filteredTodos = todos.reduce((acc,curr)=>{
@@ -25,5 +26,7 @@ const TodoList = ({ todos, deleteTodo, updateTodoStatus, activeFilter }) => {
     </>
   )
 }
+
+
 
 export default TodoList
