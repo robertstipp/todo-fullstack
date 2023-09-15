@@ -5,9 +5,12 @@ const authenticationController = require('../controllers/authenicationController
 const Router = express.Router();
 
 Router
-  .Route('/')
-  .get()
-
+  .route('/')
+  .get(todoController.getTodos); 
+/* (req, res) => {
+    res.status(200).json(res.locals.todos)
+  }
+*/
 Router
   .route('/')
   .post(authenticationController.verifyCookie, todoController.addTodo, (req, res) => {
