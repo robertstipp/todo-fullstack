@@ -64,6 +64,7 @@ const todoController = {
   },
 
   deleteTodo: async (req, res, next) => {
+    console.log(req.params.id);
     try {
       console.log('todoController.deleteTodo');
       const todoId = req.params.id;

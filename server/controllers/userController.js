@@ -38,7 +38,7 @@ userController.createUser = async (req, res, next) => {
 
   User.create({username: username, password: password})
     .then((user) => {
-      res.locals.user = { user_id: user._id, todos: user.todos }
+      res.locals.user = { user_id: user._id, username: user.username, todos: user.todos }
       return next();
     })
     .catch(err => {
@@ -69,7 +69,7 @@ userController.verifyUser = async (req, res, next) => {
       console.log('not valid')
       return res.redirect('/signup');
     }
-    res.locals.id = user._id; 
+    res.locals.user = { user_id: user._id, username: user.username}; 
     return next(); 
   } catch(err) {
     return next(createErr({err: err, method: 'verifyUser', message: err.message || 'Error occurred in verifyUser: Couldn\'t find user.'}));
