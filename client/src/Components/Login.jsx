@@ -7,6 +7,7 @@ import Art from './Art'
 import {useSelector, useDispatch} from 'react-redux'
 import {setUserName, setPassword, handleLogin} from '../userSlice.js'
 import { loginUser, signupUser } from '../userSlice.js'
+import { getTodos } from '../todoSlice.js'
 
 const Login = () => {
     const [isSignup, setIsSignup] = useState(false)
@@ -14,8 +15,15 @@ const Login = () => {
     const {username,password} = useSelector(state=>state.user);
     const dispatch = useDispatch();
     
-    const handleSubmit = () => {
-        isSignup ? dispatch(signupUser({username,password})) : dispatch(loginUser({username,password}))
+    const handleSubmit = async () => {
+        let response
+        if (isSignup) {
+            response = await dispatch(signupUser({username,password}))
+        } else {    
+            response = await dispatch(loginUser({username,password}))
+        }
+        
+        dispatch(getTodos(response.payload))
     }
     const toggleSubmit = () => {
         setIsSignup(!isSignup)

@@ -6,8 +6,8 @@ export const userAPI = {
   login: (credentials) => {
     // TODO: Switch post request body to cred
     return axios.post(`${baseURL}/user/login`, {
-      username: 'bobby',
-      password: "pass123"
+      username: credentials.username,
+      password: credentials.password
     },{
       withCredentials: true,
       headers: {
