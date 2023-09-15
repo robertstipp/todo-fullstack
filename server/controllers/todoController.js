@@ -35,7 +35,8 @@ const todoController = {
     try {
       console.log('todoController.updateTodo'); 
       const { id } = req.params; 
-      const update  = req.body;
+      console.log(id);
+      const update = req.body;
       await Todo.findByIdAndUpdate({ _id: id }, update);
       next();
       
