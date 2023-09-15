@@ -4,6 +4,7 @@ const port = 3000;
 const path = require('path');
 const mongoose = require('mongoose');
 const userRouter = require('./routes/userRoute.js');
+const todoRouter = require('./routes/todoRoute.js'); 
 const cookieParser = require('cookie-parser');
 const cors = require('cors'); 
 
@@ -17,12 +18,21 @@ const corsOptions = {
 require('dotenv').config();
 
 mongoose.connect(process.env.URI)
-    .then(() => {
-        console.log('Connected to DB');
-    })
-    .catch(err => {
-        console.log(`error => ${err}`);
-    });
+  .then(() => {
+    console.log('Connected to DB');
+  })
+  .catch(err => {
+    console.log(`error => ${err}`);
+  });
+
+  mongoose.connection.on('disconnect', () => {
+    console.log('Disconnected from DB');
+  });
+
+mongoose.connection.on('error', (err) => {
+  console.log('Mongoose Connection Error: ', err)
+});
+
 
 app.use(cors(corsOptions)); 
 app.use(express.json());
@@ -43,6 +53,8 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../client/build/index.html'));
 });
+
+app.use('/', todoRouter); 
 
 app.use('/user', userRouter);
 

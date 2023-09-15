@@ -1,5 +1,4 @@
 const User = require('../models/userModel.js');
-const Todo = require('../models/todoModel.js');
 const bcrypt = require('bcrypt');
 const userController = {};
 
@@ -12,26 +11,22 @@ const createErr = (errInfo) => {
     };
   };
 
-// Gets user from User collection if it exists
 userController.getUser = async (req, res, next) => {
-  console.log('<<< userController.getUser >>>')
-    const { username } = req.body;
-    
-    // find the user, then populate the todo array with documents related to the object ids stored within from the todo collection
-    User.findOne({ username: username })
-        .populate('todos')
-        .then(data => {
-          // create response object
-          const resultUser = {
-            user_id: data._id,
-            todos: data.todos
-          }
-          res.locals.user = resultUser;
-          return next();
-        })
-        .catch(err => {
-          return next(createErr({err: err, method: 'getUser', message: {error: 'Error occurred in getUser'}}));
-        });
+  console.log('<<< userController.getUser >>>');
+  const { username } = req.body;
+
+  User.findOne({ username: username })
+    .then(data => {
+    const resultUser = {
+      user_id: data.id,
+      todos: data.todos
+    };
+    res.locals.user = resultUser; 
+    return next(); 
+    })
+    .catch(err => {
+        return next(createErr({err: err, method: 'getUser', message: {error: 'Error occurred in getUser'}}));
+    });
 }
 
 // creates new user document in User collection
@@ -39,34 +34,24 @@ userController.createUser = async (req, res, next) => {
   console.log('<<< userController.createUser >>>')
   // Destruct and create user object
   const { username, password } = req.body;
-  const user = {
-    username: username,
-    password: password
-  };
+  if (!username || !password) return res.status(400).send('Missing username and/or password'); 
 
-  // make sure array is returned for todos
-  // Creating new user document here from user object
-  User.create(user)
-    .then(data => {
-      // Create and store response in locals
-      const resultUser = {
-        user_id: data._id,
-        todos: data.todos
-      }
-      res.locals.user = resultUser;
+  User.create({username: username, password: password})
+    .then((user) => {
+      res.locals.user = { user_id: user._id, todos: user.todos }
       return next();
     })
     .catch(err => {
       if(err.code === 11000) next(createErr({err: err, method: 'createUser', message: {error: 'That user already exists'}, status: 409}));
       return next(createErr({err: err, method: 'createUser', message: err.message || 'Error occurred in createUser'}));
     });
+
 }
 
 // verifies username and password by finding user and comparing passed password aganist hashed password 
 userController.verifyUser = async (req, res, next) => {
+  try {
   console.log('<<< userController.verifyUser >>>')
-  console.log('<<< REQUEST BODY', req.body, '>>>'); 
-  
   // destruct username and password from req body object
   const { username, password } = req.body; 
 
@@ -75,7 +60,6 @@ userController.verifyUser = async (req, res, next) => {
     return res.redirect('/signup'); 
   }
   // check database for user with passed in username 
-  try {
     const user = await User.findOne({ username: username });
     if (!user) {
       return res.status(404).json({error: `couldn't find user with username ${username}`});
@@ -85,6 +69,7 @@ userController.verifyUser = async (req, res, next) => {
       console.log('not valid')
       return res.redirect('/signup');
     }
+    res.locals.user = { user_id: user._id, username: user.username}; 
     return next(); 
   } catch(err) {
     return next(createErr({err: err, method: 'verifyUser', message: err.message || 'Error occurred in verifyUser: Couldn\'t find user.'}));
