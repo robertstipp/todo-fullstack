@@ -25,7 +25,7 @@ const todoController = {
 
   addTodo: async (req, res, next) => {
     try {
-      console.log('todoController.addTod');
+      console.log('todoController.addTodo');
       const { itemName, itemValue, itemStatus } = req.body;
       console.log(itemName, itemValue, itemStatus); 
       const { id } = await jwt.verify(req.cookies.token, process.env.KEY)

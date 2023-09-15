@@ -38,7 +38,7 @@ userController.createUser = async (req, res, next) => {
 
   User.create({username: username, password: password})
     .then((user) => {
-      res.locals.user = { user_id: user._id, username: user.username, todos: user.todos }
+      res.locals.user = { user_id: user._id, todos: user.todos }
       return next();
     })
     .catch(err => {
