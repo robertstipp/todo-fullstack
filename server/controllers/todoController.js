@@ -30,7 +30,11 @@ const todoController = {
       console.log(itemName, itemValue, itemStatus); 
       const { id } = await jwt.verify(req.cookies.token, process.env.KEY)
       console.log('<<<', id); 
-      const user = await User.findById({ _id: id }); 
+      const user = await User.findById({_id: id }); 
+      if (!user) {
+        throw new Error("User not found");
+      }
+      
       user.todos.push({ itemName: itemName, itemValue: itemValue, itemStatus: itemStatus })
       user.save(); 
       res.locals.todo = user.todos[user.todos.length-1];
