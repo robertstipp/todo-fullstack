@@ -24,7 +24,7 @@ export const todoAPI = {
     })
   },
   updateTodo: (update, todoId) => {
-    return axios.patch(`${baseURL}/id=${todoId}`, {update}, {
+    return axios.patch(`${baseURL}/todo/${todoId}`, {update}, {
       withCredentials: true,
       headers: {
         'Content-Type' : 'application/json'
@@ -32,7 +32,7 @@ export const todoAPI = {
     })
   },
   deleteTodo: (todoId) => {
-    return axios.delete(`${baseURL}/id=${todoId}`, {
+    return axios.delete(`${baseURL}/todo/${todoId}`, {
       withCredentials: true,
       headers: {
         'Content-Type' : 'application/json'

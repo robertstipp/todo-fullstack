@@ -5,7 +5,7 @@ import EditableListItem from './EditableListItem'
 
 
 const TodoList = ({ todos, deleteTodo, updateTodoStatus, activeFilter }) => {
-  
+  console.log(todos)
   const filteredTodos = todos.reduce((acc,curr)=>{
     if (activeFilter === 'all') acc.push(curr);
     if (activeFilter === 'completed' && curr.status === true) acc.push(curr)
@@ -19,7 +19,7 @@ const TodoList = ({ todos, deleteTodo, updateTodoStatus, activeFilter }) => {
         return <TodoListitem
         todo={todo}
         key={todo._id}
-        todoId={todo.id}
+        todoId={todo._id}
         deleteTodo={deleteTodo}
         updateTodoStatus = {updateTodoStatus}
         />
