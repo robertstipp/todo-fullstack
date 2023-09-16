@@ -26,7 +26,8 @@ export const createTodo = createAsyncThunk(
   'todo/createTodo',
   async (todo,thunkAPI) => {
     try {
-      const data = await todoAPI.createTodo(todo)
+      const response = await todoAPI.createTodo(todo)
+      return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
     }
@@ -84,6 +85,10 @@ export const todoSlice = createSlice({
     },
     toggleTodoFilter: (state,action) => {
       state.activeFilter = action.payload
+    },
+    // TODO: Handle Logout and clearing of TODO state
+    clearTodos: (state,action) => {
+      state.todos = []
     }
   },
   extraReducers: (builder) => {
@@ -98,9 +103,19 @@ export const todoSlice = createSlice({
       .addCase(getTodos.rejected, (state) => {
         state.status = 'failed'
       })
+      .addCase(createTodo.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(createTodo.fulfilled, (state,action) => {
+        state.status = 'fulfilled'
+        state.todos.push(action.payload)
+      })
+      .addCase(createTodo.rejected, (state) => {
+        state.status = 'failed'
+      })
   }
 })
 
-export const {addTodo, deleteTodo, updateTodoStatus, editTodo, toggleTodoFilter} = todoSlice.actions;
+export const {addTodo, deleteTodo, updateTodoStatus, editTodo, toggleTodoFilter, clearTodos} = todoSlice.actions;
 
 export default todoSlice.reducer;

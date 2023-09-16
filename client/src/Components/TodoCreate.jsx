@@ -4,11 +4,14 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components'
 
-const TodoCreate = ({ addTodo }) => {
+import {createTodo} from '../todoSlice.js'
+
+const TodoCreate = () => {
 
     const [itemName, setitemName] = useState('');
     
-
+    // TODO: Create input for itemValue
+    
     const dispatch = useDispatch()
   return (
     <Create>
@@ -16,7 +19,10 @@ const TodoCreate = ({ addTodo }) => {
             setitemName(e.target.value);
         }} />
         <SubmitToDo onClick={()=>{
-            dispatch(addTodo({itemName, id: Date.now(), status: false}))
+            const itemValue = "URGENT";
+            const itemStatus = false;
+            dispatch(createTodo({itemName, itemValue, itemStatus}))
+            // dispatch(addTodo({itemName, id: Date.now(), status: false}))
             setitemName('')
         }}>Submit</SubmitToDo>
 
