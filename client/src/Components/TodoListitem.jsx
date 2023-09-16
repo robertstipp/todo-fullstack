@@ -74,7 +74,7 @@ background: white;
 text-align: center;
 border: 1px solid black;
 border-radius: 100%;
-background-color: #F78CA2;
+background-color: rgba(255,0,0,1);
 font-weight: bold;
 color: black;
 `

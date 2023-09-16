@@ -9,8 +9,12 @@ import {createTodo} from '../todoSlice.js'
 const TodoCreate = () => {
 
     const [itemName, setitemName] = useState('');
-    
+    const [itemValue, setItemValue] = useState('unimportant')
     // TODO: Create input for itemValue
+
+    const toggleItemValue = () => {
+      setItemValue(itemValue === 'unimportant' ? 'important' : 'unimportant');
+    }
     
     const dispatch = useDispatch()
   return (
@@ -18,15 +22,12 @@ const TodoCreate = () => {
         <NewInput value={itemName} type="text" name="itemName" id="itemName" onChange={(e)=>{
             setitemName(e.target.value);
         }} />
+        <ImportantSelect itemValue={itemValue} onClick={toggleItemValue}>!</ImportantSelect>
         <SubmitToDo onClick={()=>{
-            const itemValue = "important";
-            const itemStatus = false;
-            dispatch(createTodo({itemName, itemValue, itemStatus}))
-            // dispatch(addTodo({itemName, id: Date.now(), status: false}))
+            // const itemStatus = false;
+            dispatch(createTodo({itemName, itemValue}))
             setitemName('')
         }}>Submit</SubmitToDo>
-
-
     </Create>
   )
 }
@@ -37,6 +38,7 @@ flex-direction: column;
 align-items: center;
 gap: 15px;
 font-family: var(--main-font);
+position: relative;
 `
 
 const NewInput = styled.input `
@@ -44,6 +46,23 @@ width: 282px;
 padding: 8px 5px;
 border-radius: 7px;
 border: 1px solid grey;
+`
+const primaryColor = 'rgba(255,255,255,.5)';
+const secondaryColor = 'rgba(255,0,0,1)';
+
+const ImportantSelect = styled.div`
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  height: 20px;
+  width: 20px;
+  border: 1px solid black;
+
+  background-color: ${props => props.itemValue === 'unimportant' ? primaryColor : secondaryColor};
+  text-align: center;
+  border-radius: 100%;
+  font-weight: bold;
+  cursor: pointer;
 `
 
 const SubmitToDo = styled.button `
