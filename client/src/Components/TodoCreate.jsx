@@ -19,7 +19,7 @@ const TodoCreate = () => {
             setitemName(e.target.value);
         }} />
         <SubmitToDo onClick={()=>{
-            const itemValue = "URGENT";
+            const itemValue = "important";
             const itemStatus = false;
             dispatch(createTodo({itemName, itemValue, itemStatus}))
             // dispatch(addTodo({itemName, id: Date.now(), status: false}))
