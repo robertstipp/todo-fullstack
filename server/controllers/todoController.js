@@ -86,7 +86,12 @@ const todoController = {
       }))
     }
   },
-
+  getTodos: async function (req, res, next) {
+    const { token } = req.cookies; 
+    const { id } = await jwt.verify(token, process.env.KEY)
+    const user = await User.findById(id);
+    return res.status(200).json(user.todos);
+  }
 }
 
 module.exports = todoController; 

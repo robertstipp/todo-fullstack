@@ -6,6 +6,13 @@ const Router = express.Router();
 
 Router
   .route('/')
+  .get(todoController.getTodos); 
+/* (req, res) => {
+    res.status(200).json(res.locals.todos)
+  }
+*/
+Router
+  .route('/')
   .post(authenticationController.verifyCookie, todoController.addTodo, (req, res) => {
     res.status(200).json(res.locals.todo);
   }); 

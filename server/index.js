@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-app.use('/', todoRouter); 
+app.use('/todo', todoRouter); 
 
 app.use('/user', userRouter);
 

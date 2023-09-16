@@ -1,10 +1,62 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+
+import { todoAPI } from './TodoAPI';
 
 const initialState = {
-  todos : [{"itemName": "Buy Bubbles", "id": 1, "status": true}, 
-  {"itemName": "Watch Kobe", "id": 2, "status": false}],
-  activeFilter: 'all'
+  todos : [],
+  activeFilter: 'all',
+  status: 'idle',
+  error: null
 }
+
+
+export const getTodos = createAsyncThunk(
+  'todo/getTodos',
+  async (_,thunkAPI) => {
+    try {
+      const response = await todoAPI.getTodos()
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+export const createTodo = createAsyncThunk(
+  'todo/createTodo',
+  async (todo,thunkAPI) => {
+    try {
+      const data = await todoAPI.createTodo(todo)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+export const updateTodo = createAsyncThunk (
+  'todo/updateTodo',
+  async ({update, todoId},thunkAPI) => {
+    try {
+      const data = await todoAPI.updateTodo(update,todoId)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+// TODO : FIX NAME -> NO ToDO Just Todo
+export const deleteToDo =  createAsyncThunk(
+  'todo/deleteTodo',
+  async (todoId, thunkAPI) => {
+    try {
+      const data = await todoAPI.deleteTodo(todoId)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+
 
 export const todoSlice = createSlice({
   name: "todoSlice",
@@ -33,6 +85,19 @@ export const todoSlice = createSlice({
     toggleTodoFilter: (state,action) => {
       state.activeFilter = action.payload
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getTodos.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(getTodos.fulfilled, (state,action) => {
+        state.status = 'fulfilled'
+        state.todos = action.payload || []
+      })
+      .addCase(getTodos.rejected, (state) => {
+        state.status = 'failed'
+      })
   }
 })
 
