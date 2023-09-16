@@ -8,8 +8,8 @@ export const todoAPI = {
   },
   createTodo: (todo) => {
     const testTodo = {
-      itemName : 'test1',
-      itemValue : "URGENT",
+      itemName : todo.itemName,
+      itemValue : todo.itemValue,
       itemStatus: false
     }
     return axios.post(`${baseURL}/todo`, {

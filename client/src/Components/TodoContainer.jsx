@@ -7,9 +7,9 @@ import Logout from './Logout'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {useEffect}  from 'react'
-import { getTodos, addTodo, deleteTodo, updateTodoStatus, toggleTodoFilter } from '../todoSlice.js'
+import { getTodos, deleteTodo, updateTodoStatus, toggleTodoFilter } from '../todoSlice.js'
 
-import {handleLogout} from '../userSlice.js'
+
 
 
 const TodoContainer = () => {
@@ -18,6 +18,8 @@ const TodoContainer = () => {
 
   const {todos, activeFilter} = useSelector(state=>state.todos)
 
+  
+
   useEffect(() => {
     dispatch(getTodos())
   },[dispatch])
@@ -25,22 +27,18 @@ const TodoContainer = () => {
   return (
     <Container>
         <Controls>
-      <h2>Got Something to Do...?</h2>
-        <TodoCreate
-        addTodo = {addTodo}
-        />
-        <TodoFilter
-        toggleTodoFilter={toggleTodoFilter}
-        />
-        <Logout handleLogout={ handleLogout } />
+          <h2>Got Something to Do...?</h2>
+          <TodoCreate/>
+          <TodoFilter toggleTodoFilter={toggleTodoFilter}/>
+          <Logout/>
         </Controls>
         <Display>
-        <TodoList
-        todos = {todos}
-        deleteTodo = {deleteTodo}
-        updateTodoStatus = {updateTodoStatus}
-        activeFilter = {activeFilter}
-        />
+          <TodoList
+            todos = {todos}
+            deleteTodo = {deleteTodo}
+            updateTodoStatus = {updateTodoStatus}
+            activeFilter = {activeFilter}
+          />
         </Display>
     </Container>
   )
