@@ -6,13 +6,22 @@ import styled from 'styled-components'
 import Logout from './Logout'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addTodo, deleteTodo, updateTodoStatus, toggleTodoFilter } from '../todoSlice.js'
+import {useEffect}  from 'react'
+import { getTodos, addTodo, deleteTodo, updateTodoStatus, toggleTodoFilter } from '../todoSlice.js'
+
 import {handleLogout} from '../userSlice.js'
 
 
 const TodoContainer = () => {
 
+  const dispatch = useDispatch();
+
   const {todos, activeFilter} = useSelector(state=>state.todos)
+
+  useEffect(() => {
+    dispatch(getTodos())
+  },[dispatch])
+  
   return (
     <Container>
         <Controls>
