@@ -50,7 +50,8 @@ export const deleteToDo =  createAsyncThunk(
   'todo/deleteTodo',
   async (todoId, thunkAPI) => {
     try {
-      const data = await todoAPI.deleteTodo(todoId)
+      const response = await todoAPI.deleteTodo(todoId)
+      return todoId
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
     }
@@ -111,6 +112,18 @@ export const todoSlice = createSlice({
         state.todos.push(action.payload)
       })
       .addCase(createTodo.rejected, (state) => {
+        state.status = 'failed'
+      })
+      .addCase(deleteToDo.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(deleteToDo.fulfilled, (state,action) => {
+        state.status = 'fulfilled'
+        console.log(action.payload)
+        console.log(state.todos)
+        state.todos=state.todos.filter((todo)=>todo._id !== action.payload)
+      })
+      .addCase(deleteToDo.rejected, (state) => {
         state.status = 'failed'
       })
   }

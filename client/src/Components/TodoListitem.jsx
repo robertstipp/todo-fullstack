@@ -3,7 +3,9 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-const TodoListitem = ({ todo, key, deleteTodo, updateTodoStatus }) => {
+import {deleteToDo} from '../todoSlice.js'
+
+const TodoListitem = ({ todo, todoId, deleteTodo, updateTodoStatus }) => {
 
   const dispatch = useDispatch();
 
@@ -13,7 +15,8 @@ const TodoListitem = ({ todo, key, deleteTodo, updateTodoStatus }) => {
         dispatch(updateTodoStatus(todo.id))
       }}></Checkbox>
     <Delete onClick={()=>{
-      dispatch(deleteTodo(todo.id))
+      // dispatch(deleteTodo(todo.id))
+      dispatch(deleteToDo(todoId))
     }} >X</Delete>
     </ToDoDisplay>
   )

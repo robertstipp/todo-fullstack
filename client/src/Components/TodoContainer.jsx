@@ -18,8 +18,6 @@ const TodoContainer = () => {
 
   const {todos, activeFilter} = useSelector(state=>state.todos)
 
-  
-
   useEffect(() => {
     dispatch(getTodos())
   },[dispatch])
