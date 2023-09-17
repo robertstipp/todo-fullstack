@@ -55,7 +55,7 @@ const ImportantSelect = styled.div`
   width: 20px;
   border: 1px solid black;
 
-  background-color: ${props => props.itemValue === 'unimportant' ? primaryColor : secondaryColor};
+  background-color: ${props => props.$itemValue === 'unimportant' ? primaryColor : secondaryColor};
   text-align: center;
   border-radius: 100%;
   font-weight: bold;
