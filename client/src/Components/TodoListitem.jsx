@@ -1,24 +1,46 @@
 import React from 'react'
 
 import { useDispatch } from 'react-redux'
+import {useState} from 'react'
 import styled from 'styled-components'
 
-import {deleteToDo} from '../todoSlice.js'
+import {deleteTodo, updateTodo} from '../todoSlice.js'
 
-const TodoListitem = ({ todo, todoId, deleteTodo, updateTodoStatus }) => {
-
+const TodoListitem = ({ todo, todoId}) => {
+  const [isEditing, setIsEditing] = useState(false)
+  const [newItemName, setNewItemName] = useState(todo.itemName)
   const dispatch = useDispatch();
+
+  const handleEdit = (update) => {
+
+
+    const payload = {update, todoId}
+    dispatch(updateTodo(payload))
+    setIsEditing(false)
+  }
   return (
-    <ToDoDisplay>{todo.itemName}
+    <ToDoDisplay>
+      {isEditing ? (
+        <input 
+          type='text'
+          value={newItemName}
+          onChange={(e)=>setNewItemName(e.target.value)}
+          onBlur={()=>handleEdit({itemName: newItemName})}
+        />
+      ) : (
+        <div onDoubleClick={()=>setIsEditing(true)}>
+          {todo.itemName}
+        </div>
+      )}
 
       {todo.itemValue === 'important' && <Badge>!</Badge>}
       
-      <Checkbox type="checkbox" checked={todo.status} onChange={()=>{
-        dispatch(updateTodoStatus(todo.id))
+      <Checkbox type="checkbox" checked={todo.itemStatus} onChange={()=>{
+        const newStatus = !todo.itemStatus
+        handleEdit({itemStatus: newStatus})
       }}></Checkbox>
     <Delete onClick={()=>{
-      // dispatch(deleteTodo(todo.id))
-      dispatch(deleteToDo(todoId))
+      dispatch(deleteTodo(todoId))
     }} >X</Delete>
     </ToDoDisplay>
   )

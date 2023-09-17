@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState } from 'react';
-
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components'
 
@@ -10,7 +9,6 @@ const TodoCreate = () => {
 
     const [itemName, setitemName] = useState('');
     const [itemValue, setItemValue] = useState('unimportant')
-    // TODO: Create input for itemValue
 
     const toggleItemValue = () => {
       setItemValue(itemValue === 'unimportant' ? 'important' : 'unimportant');
@@ -22,9 +20,8 @@ const TodoCreate = () => {
         <NewInput value={itemName} type="text" name="itemName" id="itemName" onChange={(e)=>{
             setitemName(e.target.value);
         }} />
-        <ImportantSelect itemValue={itemValue} onClick={toggleItemValue}>!</ImportantSelect>
+        <ImportantSelect $itemValue={itemValue} onClick={toggleItemValue}>!</ImportantSelect>
         <SubmitToDo onClick={()=>{
-            // const itemStatus = false;
             dispatch(createTodo({itemName, itemValue}))
             setitemName('')
         }}>Submit</SubmitToDo>
