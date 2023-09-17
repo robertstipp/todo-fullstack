@@ -7,15 +7,10 @@ export const todoAPI = {
     return axios.get(`${baseURL}/todo`)
   },
   createTodo: (todo) => {
-    const testTodo = {
-      itemName : todo.itemName,
-      itemValue : todo.itemValue,
-      itemStatus: false
-    }
     return axios.post(`${baseURL}/todo`, {
-      itemName: testTodo.itemName,
-      itemValue: testTodo.itemValue,
-      itemStatus: testTodo.itemStatus,     
+      itemName: todo.itemName,
+      itemValue: todo.itemValue,
+      itemStatus: false,     
     }, {
       withCredentials: true,
       headers: {
@@ -24,7 +19,7 @@ export const todoAPI = {
     })
   },
   updateTodo: (update, todoId) => {
-    return axios.patch(`${baseURL}/todo/${todoId}`, {update}, {
+    return axios.patch(`${baseURL}/todo/${todoId}`, update, {
       withCredentials: true,
       headers: {
         'Content-Type' : 'application/json'

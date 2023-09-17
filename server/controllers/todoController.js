@@ -54,6 +54,7 @@ const todoController = {
       console.log('todoController.updateTodo');
       const { id: userId } = await jwt.verify(req.cookies.token, process.env.KEY)
       const filter = { _id: userId, 'todos._id': req.params.id }
+      console.log(req.body)
       const update = createUpdate(req.body); 
       await User.findOneAndUpdate(filter, update);
       next(); 

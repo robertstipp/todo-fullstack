@@ -38,7 +38,8 @@ export const updateTodo = createAsyncThunk (
   'todo/updateTodo',
   async ({update, todoId},thunkAPI) => {
     try {
-      const data = await todoAPI.updateTodo(update,todoId)
+      await todoAPI.updateTodo(update,todoId)
+      return {update, todoId}
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
     }
@@ -46,11 +47,11 @@ export const updateTodo = createAsyncThunk (
 )
 
 // TODO : FIX NAME -> NO ToDO Just Todo
-export const deleteToDo =  createAsyncThunk(
+export const deleteTodo =  createAsyncThunk(
   'todo/deleteTodo',
   async (todoId, thunkAPI) => {
     try {
-      const response = await todoAPI.deleteTodo(todoId)
+      await todoAPI.deleteTodo(todoId)
       return todoId
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -64,26 +65,6 @@ export const todoSlice = createSlice({
   name: "todoSlice",
   initialState,
   reducers: {
-    addTodo: (state,action) => {
-      state.todos.push(action.payload)
-    },
-    deleteTodo: (state,action) => {
-      state.todos = state.todos.filter(todo => todo.id !== action.payload)
-    },
-    updateTodoStatus: (state, action) => {
-      const todo = state.todos.find(todo => todo.id === action.payload);
-      if (todo) {
-        todo.status = !todo.status;
-      }
-    },
-    // TODO - EDITABLE LIST ITEM
-    editTodo: (state, action) => {
-      const { id, newValue } = action.payload;
-      const todo = state.todos.find(todo => todo.id === id);
-      if (todo) {
-        todo.itemName = newValue;
-      }
-    },
     toggleTodoFilter: (state,action) => {
       state.activeFilter = action.payload
     },
@@ -114,21 +95,34 @@ export const todoSlice = createSlice({
       .addCase(createTodo.rejected, (state) => {
         state.status = 'failed'
       })
-      .addCase(deleteToDo.pending, (state) => {
+      .addCase(deleteTodo.pending, (state) => {
         state.status = 'loading'
       })
-      .addCase(deleteToDo.fulfilled, (state,action) => {
+      .addCase(deleteTodo.fulfilled, (state,action) => {
         state.status = 'fulfilled'
-        console.log(action.payload)
-        console.log(state.todos)
         state.todos=state.todos.filter((todo)=>todo._id !== action.payload)
       })
-      .addCase(deleteToDo.rejected, (state) => {
+      .addCase(deleteTodo.rejected, (state) => {
+        state.status = 'failed'
+      })
+      .addCase(updateTodo.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(updateTodo.fulfilled, (state,action) => {
+        state.status = 'fulfilled'
+        const {update, todoId} = action.payload
+        const index = state.todos.findIndex(todo => todo._id === todoId);
+        const oldTodo = state.todos[index]
+        if (index !== -1) {
+          state.todos[index] = {...oldTodo, ...update}
+        }
+      })
+      .addCase(updateTodo.rejected, (state) => {
         state.status = 'failed'
       })
   }
 })
 
-export const {addTodo, deleteTodo, updateTodoStatus, editTodo, toggleTodoFilter, clearTodos} = todoSlice.actions;
+export const {toggleTodoFilter, clearTodos} = todoSlice.actions;
 
 export default todoSlice.reducer;

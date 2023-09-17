@@ -7,7 +7,7 @@ import Logout from './Logout'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {useEffect}  from 'react'
-import { getTodos, deleteTodo, updateTodoStatus, toggleTodoFilter } from '../todoSlice.js'
+import { getTodos, toggleTodoFilter } from '../todoSlice.js'
 
 
 
@@ -33,8 +33,6 @@ const TodoContainer = () => {
         <Display>
           <TodoList
             todos = {todos}
-            deleteTodo = {deleteTodo}
-            updateTodoStatus = {updateTodoStatus}
             activeFilter = {activeFilter}
           />
         </Display>
