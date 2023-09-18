@@ -4,6 +4,7 @@ import TodoList from './TodoList'
 import TodoFilter from './TodoFilter'
 import styled from 'styled-components'
 import Logout from './Logout'
+import { FilterDisplay } from './FilterDisplay'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {useEffect}  from 'react'
@@ -28,6 +29,10 @@ const TodoContainer = () => {
           <h2>Got Something to Do...?</h2>
           <TodoCreate/>
           <TodoFilter toggleTodoFilter={toggleTodoFilter}/>
+          <FilterDisplay
+            todos = {todos}
+            activeFilter = {activeFilter}
+          />
           <Logout/>
         </Controls>
         <Display>
@@ -59,6 +64,7 @@ const Controls = styled.div`
     align-items: center;
     gap: 45px;
     width: 250px;
+    height: 475px;
     border: 1.5px solid grey;
     border-radius: 7px;
     padding: 10px 40px 60px;
@@ -73,6 +79,8 @@ const Display = styled.div`
     align-items: center;
     gap: 30px;
     width: 250px;
+    height: 475px;
+    overflow: 'scroll';
     border: 1.5px solid grey;
     border-radius: 7px;
     padding: 60px 40px;
