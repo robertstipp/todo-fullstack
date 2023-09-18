@@ -5,8 +5,8 @@ const TodoList = ({ todos, activeFilter }) => {
 
   const filteredTodos = todos.reduce((acc,curr)=>{
     if (activeFilter === 'all') acc.push(curr);
-    if (activeFilter === 'completed' && curr.status === true) acc.push(curr)
-    if (activeFilter === 'todo' && curr.status === false) acc.push(curr)
+    if (activeFilter === 'completed' && curr.itemStatus === true) acc.push(curr)
+    if (activeFilter === 'todo' && curr.itemStatus === false) acc.push(curr)
     return acc
   },[])
     
